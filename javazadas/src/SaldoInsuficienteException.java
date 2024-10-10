@@ -1,2 +1,6 @@
-public class SaldoInsuficienteException {
+public class SaldoInsuficienteException extends ContaException{
+
+    public SaldoInsuficienteException() {
+        super(". saldo insuficiênte");
+    }
 }

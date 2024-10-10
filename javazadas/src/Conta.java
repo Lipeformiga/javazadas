@@ -19,9 +19,11 @@ public class Conta {
                     this.saldo -= valor;
                     return;
                 }
+                throw new LimiteInsuficienteException();
             }
+            throw new SaldoInsuficienteException();
         }
-        throw new RuntimeException("Não foi possível realizar o saque");
+        throw new ValorInvalidoException();
     }
 
     public void deposito(double valor){
@@ -44,8 +46,10 @@ public class Conta {
                         }
                     }
                 }
+                throw new LimiteInsuficienteException();
             }
+            throw new SaldoInsuficienteException();
         }
-        throw new RuntimeException("Não foi possível realizar a transferência");
+        throw new ValorInvalidoException();
     }
 }

@@ -13,43 +13,50 @@ public class Conta {
     }
 
     public void saque(double valor){
-        if ( valor > 0 ){
-            if (this.saldo >= valor){
-                if (this.limite >= valor){
-                    this.saldo -= valor;
-                    return;
-                }
-                throw new LimiteInsuficienteException();
-            }
-            throw new SaldoInsuficienteException();
-        }
-        throw new ValorInvalidoException();
+        validaValor(valor);
+        validaSaldo(valor);
+        validaLimite(valor);
+        this.saldo -= valor;
     }
 
     public void deposito(double valor){
-        if (valor > 0){
-            this.saldo += valor;
-            return;
-        }
-        throw new RuntimeException("Não foi possível realizar esse deposito!");
+       validaValor(valor);
+       this.saldo += valor;
     }
 
     public void transferencia(double valor, Conta conta){
-        if ( valor > 0 ){
-            if ( this.saldo >= valor){
-                if (this.limite >= valor){
-                    if (conta != null){
-                        if (this != conta){
-                            this.saldo -= valor;
-                            conta.saldo += valor;
-                            return;
-                        }
-                    }
-                }
-                throw new LimiteInsuficienteException();
-            }
+        validaConta(conta);
+        this.saque(valor);
+        conta.deposito(valor);
+    }
+
+    private void validaValor(double valor){
+        if (valor <= 0){
+            throw new ValorInvalidoException();
+        }
+    }
+    private void validaSaldo(double valor){
+        if (this.saldo < valor){
             throw new SaldoInsuficienteException();
         }
-        throw new ValorInvalidoException();
+    }
+    private void validaLimite(double valor){
+        if (this.limite < valor){
+            throw new LimiteInsuficienteException();
+        }
+    }
+    private void validaConta(Conta conta){
+        validaContaNula(conta);
+        validaContaPropria(conta);
+    }
+    private void validaContaNula(Conta conta){
+        if (conta == null){
+            throw new ContaInexistenteException();
+        }
+    }
+    private void validaContaPropria(Conta conta){
+        if (this == conta){
+            throw new PropriaContaException();
+        }
     }
 }

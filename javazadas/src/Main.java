@@ -8,26 +8,13 @@ public class Main {
         do {
             mostrarOpcoesMenu();
             int opcaoMenu = sc.nextInt();
-            executarOpcaoMenu(opcaoMenu);
+            try {
+                executarOpcaoMenu(opcaoMenu);
+            } catch (ContaInexistenteException | ContaJaCadastradaException e) {
+                System.out.println(e.getMessage());
+            }
+
         } while (true);
-
-
-
-//        Conta conta1 = new Conta(1,"Romário",80000);
-//        Conta conta2 = new Conta(2,"Kristian",54000);
-//
-//        System.out.println("Digite o valor do saque: ");
-//        double valor = sc.nextDouble();
-//      try {
-//           conta1.saque(valor);
-//      } catch (SaldoInsuficienteException e){
-//          System.out.println(e.getMessage());
-//      } catch (ValorInvalidoException | LimiteInsuficienteException e){
-//          e.printStackTrace(); // mostra como se tivese crashado a operação
-//      } catch (ContaException ignore){
-//
-//      }
-//        System.out.println("Ainda está rodando");
     }
 
     private static void cadastroConta(){
@@ -124,36 +111,21 @@ public class Main {
 
     private static void executarOpcaoMenu(int opcao){
         switch(opcao){
-            case 1: cadastroConta();
+            case 1:
+                cadastroConta();
             break;
             case 2:
-                try {
-                    editarConta();
-                } catch (ContaInexistenteException e) {
-                    System.err.println(e.getMessage());
-                }
-
+                editarConta();
             break;
             case 3:
-                try {
-                    removeConta();;
-                } catch (ContaInexistenteException e) {
-                    System.err.println(e.getMessage());
-                }
-
+                removeConta();
             break;
             case 4:
                 System.out.println(db.buscarContas());
                 break;
             case 5:
                 int opcaoConta = 0;
-                Conta conta = null;
-                try {
-                    conta = buscarConta();
-                } catch (ContaInexistenteException e) {
-                    System.err.println(e.getMessage());
-                    break;
-                }
+                Conta conta = buscarConta();
 
                 do {
                     mostrarOpcoesConta();
@@ -186,7 +158,6 @@ public class Main {
     private static void executarOpcaoConta(Conta conta,int opcao){
         switch(opcao){
             case 1:
-
                 conta.deposito(solicitarValor());
                 break;
             case 2:

@@ -5,6 +5,9 @@ public class Main {
     private static Scanner sc = new Scanner(System.in);
     private static BancoDeDados db = new BancoDeDados();
     public static void main(String[] args){
+
+        // tratar o mal pela raiz ( usar try e catch aonde ta chamando o metodo que joga a excessão )
+
         do {
             mostrarOpcoesMenu();
             int opcaoMenu = sc.nextInt();
@@ -13,7 +16,6 @@ public class Main {
             } catch (ContaInexistenteException | ContaJaCadastradaException e) {
                 System.out.println(e.getMessage());
             }
-
         } while (true);
     }
 

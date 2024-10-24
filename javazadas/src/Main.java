@@ -34,7 +34,7 @@ public class Main {
         System.out.println("Número da conta: ");
         int numero = sc.nextInt();
         try {
-            Conta conta = db.buscarConta(numero);
+            Conta conta = db.buscaConta(numero);
         } catch (ContaInexistenteException e) {
             System.out.println("Titular:");
             String titular = sc.next();
@@ -46,10 +46,8 @@ public class Main {
         throw new ContaJaCadastradaException();
     }
     private static void removeConta(){
-        System.out.println(db.buscarContas());
-        System.out.println("Número da conta: ");
-        int numero = sc.nextInt();
-        db.deletarConta(numero);
+        Conta conta = buscarConta();
+        db.deletarConta(conta);
     }
     private static void editarConta(){
         Conta conta = buscarConta();
@@ -59,13 +57,13 @@ public class Main {
         double limite = sc.nextDouble();
         conta.setTitular(titular);
         conta.setLimite(limite);
-//        db.atualizarConta(conta);
+//      db.atualizarConta(conta);
     }
     private static Conta buscarConta(){
         System.out.println(db.buscarContas());
         System.out.println("Número da conta: ");
         int numero = sc.nextInt();
-        return db.buscarConta(numero);
+        return db.buscaConta(numero);
     }
 
     private static void login(){
@@ -128,16 +126,35 @@ public class Main {
         switch(opcao){
             case 1: cadastroConta();
             break;
-            case 2: editarConta();
+            case 2:
+                try {
+                    editarConta();
+                } catch (ContaInexistenteException e) {
+                    System.err.println(e.getMessage());
+                }
+
             break;
-            case 3: removeConta();
+            case 3:
+                try {
+                    removeConta();;
+                } catch (ContaInexistenteException e) {
+                    System.err.println(e.getMessage());
+                }
+
             break;
             case 4:
                 System.out.println(db.buscarContas());
                 break;
             case 5:
                 int opcaoConta = 0;
-                Conta conta = buscarConta();
+                Conta conta = null;
+                try {
+                    conta = buscarConta();
+                } catch (ContaInexistenteException e) {
+                    System.err.println(e.getMessage());
+                    break;
+                }
+
                 do {
                     mostrarOpcoesConta();
                     opcaoConta = sc.nextInt();
@@ -146,9 +163,9 @@ public class Main {
                             executarOpcaoConta(conta, opcaoConta);
                             break;
                         } catch (ValorInvalidoException | ContaInexistenteException e) {
-                            System.out.println(e.getMessage());
+                            System.err.println(e.getMessage());
                         } catch (SaldoInsuficienteException | LimiteInsuficienteException | PropriaContaException e){
-                            System.out.println(e.getMessage());
+                            System.err.println(e.getMessage());
                             break;
                         }
                     } while (true);

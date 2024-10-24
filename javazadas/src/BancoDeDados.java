@@ -7,12 +7,11 @@ public class BancoDeDados {
     public void inserirConta(Conta conta) {
         this.contas.add(conta);
     }
-    public void deletarConta(int numero ) {
-        Conta conta = buscarConta(numero);
+    public void deletarConta(Conta conta ) {
         this.contas.remove(conta);
     }
 
-    public Conta buscarConta(int numero) {
+    public Conta buscaConta(int numero) {
         for (Conta conta : this.contas) {
             if (conta.getNumero() == numero){
                 return conta;

@@ -24,15 +24,17 @@ public class Conta {
         this.saldo -= valor;
     }
 
-    public void deposito(double valor){
+    public void deposito(double valor) throws ValorInvalidoException{
        validaValor(valor);
        this.saldo += valor;
     }
 
     public void transferencia(double valor, Conta conta)
-            throws ContaInexistenteException, PropriaContaException{
+            throws ContaInexistenteException, PropriaContaException, ValorInvalidoException,
+            SaldoInsuficienteException, LimiteInsuficienteException {
         validaConta(conta);
         this.saque(valor);
+
         conta.deposito(valor);
     }
 
@@ -86,5 +88,9 @@ public class Conta {
                 ", saldo: " + saldo +
                 ", limite: " + limite +
                 '}';
+    }
+
+    public double getSaldo() {
+        return saldo;
     }
 }

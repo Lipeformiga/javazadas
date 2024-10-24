@@ -101,7 +101,8 @@ public class Main {
                 1 - Deposito
                 2 - Saque
                 3 - Transferencia
-                4 - voltar
+                4 - Saldo
+                5 - voltar
                 
                 >
                 """);
@@ -140,8 +141,18 @@ public class Main {
                 do {
                     mostrarOpcoesConta();
                     opcaoConta = sc.nextInt();
-                    executarOpcaoConta(conta, opcaoConta);
-                } while (opcaoConta != 4);
+                    do {
+                        try {
+                            executarOpcaoConta(conta, opcaoConta);
+                            break;
+                        } catch (ValorInvalidoException | ContaInexistenteException e) {
+                            System.out.println(e.getMessage());
+                        } catch (SaldoInsuficienteException | LimiteInsuficienteException | PropriaContaException e){
+                            System.out.println(e.getMessage());
+                            break;
+                        }
+                    } while (true);
+                } while (opcaoConta != 5);
                 break;
             case 6:
                 System.out.println("Até mais!");
@@ -158,15 +169,21 @@ public class Main {
     private static void executarOpcaoConta(Conta conta,int opcao){
         switch(opcao){
             case 1:
+
                 conta.deposito(solicitarValor());
                 break;
             case 2:
                 conta.saque(solicitarValor());
                 break;
             case 3:
-                conta.transferencia(solicitarValor(), conta);
+                //  Saldo insuficiente, Limite, Prorpia conta retornam para o menu
+                // Valor invalido, Containexistente solicita o valor e a conta para transferencia
+                conta.transferencia(solicitarValor(), buscarConta());
                 break;
             case 4:
+                System.out.println("Saldo: R$" + conta.getSaldo());
+                break;
+            case 5:
                 System.out.println("Até mais!");
                 break;
             default:

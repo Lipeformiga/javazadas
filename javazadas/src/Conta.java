@@ -93,4 +93,12 @@ public class Conta {
     public double getSaldo() {
         return saldo;
     }
+
+    public String getTitular() {
+        return titular;
+    }
+
+    public double getLimite() {
+        return limite;
+    }
 }

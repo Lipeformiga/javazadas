@@ -8,13 +8,14 @@ public class CRUDConta {
 
     private final BancoDeDados banco = new BancoDeDados();
 
-    public void create(Conta conta){
+    public void create(Conta conta) throws SQLException {
+        Connection con = null;
         try {
 //           email = "'email@email';DROP DATABASE db_sistema_bancario";
 //           Statement stmt = con.createStatement();
 //           stmt.execute("SELECT * FROM td_ususario WHERE email = " + email)
 
-            Connection con = banco.getConexao();
+            con = banco.getConexao();
             PreparedStatement ps = con.prepareStatement(
                     "INSERT INTO tb_conta (numero, titular, saldo, limite) values (?, ?, ?, ?)");
 
@@ -35,6 +36,8 @@ public class CRUDConta {
 
         } catch (SQLException ex) {
 
+        } finally {
+            con.close();
         }
 
     }

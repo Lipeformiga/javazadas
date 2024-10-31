@@ -6,7 +6,8 @@ import java.util.List;
 
 public class BancoDeDados {
 
-    private final String URL = "jdbc:mysql://localhost:3306/db_sistema_bancario";
+    private final String URL = "jdbc:mysql://localhost:3306/db_sistema_bancario?" +
+            "createDatabaseIfNotExist=true";
     private final String USER = "root";
     private final String PASSWORD = "";
 

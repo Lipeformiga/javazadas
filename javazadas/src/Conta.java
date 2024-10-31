@@ -5,10 +5,11 @@ public class Conta {
     private double saldo;
     private double limite;
 
-//    public Conta(int numero, String titular, double saldo, double limite) {
-//        this(numero, titular, saldo);
-//        this.limite = limite;
-//    }
+    public Conta(int numero, String titular, double saldo, double limite) {
+        this(numero, titular, saldo);
+        this.limite = limite;
+    }
+
     public Conta(int numero, String titular,  double limite) {
         this.numero = numero;
         this.titular = titular;

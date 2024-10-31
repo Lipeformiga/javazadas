@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Main {
     private static Scanner sc = new Scanner(System.in);
     private static BancoDeDados db = new BancoDeDados();
+    private static CRUDConta crud = new CRUDConta();
     public static void main(String[] args){
 
         // tratar o mal pela raiz ( usar try e catch aonde ta chamando o metodo que joga a excessão )
@@ -30,6 +31,7 @@ public class Main {
             System.out.println("Limite:");
             double limite = sc.nextDouble();
             db.inserirConta(new Conta(numero, titular, limite));
+            crud.create(new Conta(numero, titular, limite));
             return;
         }
         throw new ContaJaCadastradaException();

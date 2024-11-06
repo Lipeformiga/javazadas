@@ -79,11 +79,11 @@ public class CRUDConta {
     public void update(Conta conta) {
         try (Connection con = banco.getConexao()) {
 
-            PreparedStatement ps = con.prepareStatement("UPDATE tb_conta SET titular = ?, limite = ?, saldo = ?  WHERE numero = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE tb_conta SET titular = ?, limite = ?  WHERE numero = ?");
 
             ps.setString(1, conta.getTitular());
             ps.setDouble(2, conta.getLimite());
-            ps.setDouble(3, conta.getSaldo());
+            ps.setInt(3, conta.getNumero());
 
             ps.execute();
         } catch (SQLException e){

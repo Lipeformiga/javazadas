@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    private static Scanner sc = new Scanner(System.in);
-    private static BancoDeDados db = new BancoDeDados();
-    private static CRUDConta crud = new CRUDConta();
+    private static final Scanner sc = new Scanner(System.in);
+    private static final CRUDConta operacao = new CRUDConta();
     public static void main(String[] args){
 
         // tratar o mal pela raiz ( usar try e catch aonde ta chamando o metodo que joga a excessão )
+
 
         do {
             mostrarOpcoesMenu();
@@ -24,21 +24,21 @@ public class Main {
         System.out.println("Número da conta: ");
         int numero = sc.nextInt();
         try {
-            Conta conta = db.buscaConta(numero);
+            Conta conta = operacao.readOne(numero);
         } catch (ContaInexistenteException e) {
             System.out.println("Titular:");
             String titular = sc.next();
             System.out.println("Limite:");
             double limite = sc.nextDouble();
-            db.inserirConta(new Conta(numero, titular, limite));
-            crud.create(new Conta(numero, titular, limite));
+            operacao.create(new Conta(numero, titular, limite));
             return;
         }
         throw new ContaJaCadastradaException();
     }
     private static void removeConta(){
         Conta conta = buscarConta();
-        db.deletarConta(conta);
+        operacao.delete(conta.getNumero());
+
     }
     private static void editarConta(){
         Conta conta = buscarConta();
@@ -48,13 +48,14 @@ public class Main {
         double limite = sc.nextDouble();
         conta.setTitular(titular);
         conta.setLimite(limite);
-//      db.atualizarConta(conta);
+        operacao.update(conta);
     }
     private static Conta buscarConta(){
-        System.out.println(db.buscarContas());
+        System.out.println(operacao.readAll());
         System.out.println("Número da conta: ");
         int numero = sc.nextInt();
-        return db.buscaConta(numero);
+
+        return operacao.readOne(numero);
     }
 
     private static void login(){
@@ -125,7 +126,7 @@ public class Main {
                 removeConta();
             break;
             case 4:
-                System.out.println(db.buscarContas());
+                System.out.println(operacao.readAll());
                 break;
             case 5:
                 int opcaoConta = 0;

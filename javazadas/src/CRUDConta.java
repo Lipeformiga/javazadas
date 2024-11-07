@@ -47,10 +47,12 @@ public class CRUDConta {
             // next alterna as linhas | get... altera as colunas ( pensar na tabela do DB )
             if(rs.next()) {
                 int num = rs.getInt("numero");
-                String nome = rs.getString("titular");
+                int idCliente = rs.getInt("id_cliente");
                 double saldo = rs.getDouble("saldo");
                 double limite = rs.getDouble("limite");
-                return new Conta(num,nome,saldo,limite);
+                CRUDCliente crudCliente = new CRUDCliente();
+                Cliente titular = crudCliente.readOne(idCliente);
+                return new Conta(num,titular,saldo,limite);
             }
 
         } catch (Exception e){

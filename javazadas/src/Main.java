@@ -3,7 +3,8 @@ import java.util.Scanner;
 
 public class Main {
     private static final Scanner sc = new Scanner(System.in);
-    private static final CRUDConta operacao = new CRUDConta();
+    private static final CRUDConta crudConta = new CRUDConta();
+    private static final CRUDCliente crudCliente = new CRUDCliente();
     public static void main(String[] args){
 
         // tratar o mal pela raiz ( usar try e catch aonde ta chamando o metodo que joga a excessão )
@@ -24,38 +25,49 @@ public class Main {
         System.out.println("Número da conta: ");
         int numero = sc.nextInt();
         try {
-            Conta conta = operacao.readOne(numero);
+            Conta conta = crudConta.readOne(numero);
         } catch (ContaInexistenteException e) {
-            System.out.println("Titular:");
-            String titular = sc.next();
+
+            Cliente titular = buscarCliente();
+
             System.out.println("Limite:");
             double limite = sc.nextDouble();
-            operacao.create(new Conta(numero, titular, limite));
+
+            crudConta.create(new Conta(numero, titular, limite));
             return;
         }
         throw new ContaJaCadastradaException();
     }
     private static void removeConta(){
         Conta conta = buscarConta();
-        operacao.delete(conta.getNumero());
+        crudConta.delete(conta.getNumero());
 
     }
     private static void editarConta(){
         Conta conta = buscarConta();
-        System.out.println("Titular");
-        String titular = sc.next();
-        System.out.println("Limite");
-        double limite = sc.nextDouble();
+
+        Cliente titular = buscarCliente();
         conta.setTitular(titular);
-        conta.setLimite(limite);
-        operacao.update(conta);
+
+        System.out.println("Limite");
+        conta.setLimite(sc.nextDouble());
+
+        crudConta.update(conta);
     }
     private static Conta buscarConta(){
-        System.out.println(operacao.readAll());
+        System.out.println(crudConta.readAll());
         System.out.println("Número da conta: ");
         int numero = sc.nextInt();
 
-        return operacao.readOne(numero);
+        return crudConta.readOne(numero);
+    }
+
+    private static Cliente buscarCliente(){
+        System.out.println(crudCliente.readAll());
+        System.out.println("ID do cliente: ");
+        int numero = sc.nextInt();
+
+        return crudCliente.readOne(numero);
     }
 
     private static void login(){
@@ -126,7 +138,7 @@ public class Main {
                 removeConta();
             break;
             case 4:
-                System.out.println(operacao.readAll());
+                System.out.println(crudConta.readAll());
                 break;
             case 5:
                 int opcaoConta = 0;
@@ -164,17 +176,22 @@ public class Main {
         switch(opcao){
             case 1:
                 conta.deposito(solicitarValor());
+                crudConta.update(conta);
                 break;
             case 2:
                 conta.saque(solicitarValor());
+                crudConta.update(conta);
                 break;
             case 3:
                 //  Saldo insuficiente, Limite, Prorpia conta retornam para o menu
                 // Valor invalido, Containexistente solicita o valor e a conta para transferencia
-                conta.transferencia(solicitarValor(), buscarConta());
+                Conta contaBeneficiario = buscarConta();
+                conta.transferencia(solicitarValor(), contaBeneficiario);
+                crudConta.update(conta);
+                crudConta.update(contaBeneficiario);
                 break;
             case 4:
-                System.out.println("Saldo: R$" + conta.getSaldo());
+                System.out.println("Saldo: R$" + crudConta.readOne(conta.getNumero()).getSaldo());
                 break;
             case 5:
                 System.out.println("Até mais!");

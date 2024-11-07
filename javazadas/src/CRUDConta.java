@@ -15,10 +15,10 @@ public class CRUDConta {
 //           stmt.execute("SELECT * FROM td_ususario WHERE email = " + email)
 
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO tb_conta (numero, titular, saldo, limite) values (?, ?, ?, ?)");
+                    "INSERT INTO tb_conta (numero, id_cliente, saldo, limite) values (?, ?, ?, ?)");
 
             ps.setInt(1, conta.getNumero());
-            ps.setString(2, conta.getTitular());
+            ps.setInt(2, conta.getTitular().getId());
             ps.setDouble(3, conta.getSaldo());
             ps.setDouble(4, conta.getLimite());
 
@@ -79,11 +79,12 @@ public class CRUDConta {
     public void update(Conta conta) {
         try (Connection con = banco.getConexao()) {
 
-            PreparedStatement ps = con.prepareStatement("UPDATE tb_conta SET titular = ?, limite = ?  WHERE numero = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE tb_conta SET id_cliente = ?, limite = ?, saldo = ?  WHERE numero = ?");
 
-            ps.setString(1, conta.getTitular());
+            ps.setInt(1, conta.getTitular().getId());
             ps.setDouble(2, conta.getLimite());
-            ps.setInt(3, conta.getNumero());
+            ps.setDouble(3, conta.getSaldo());
+            ps.setInt(4, conta.getNumero());
 
             ps.execute();
         } catch (SQLException e){

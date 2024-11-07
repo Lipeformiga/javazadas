@@ -1,16 +1,16 @@
 public class Conta {
 
     private int numero;
-    private String titular;
+    private Cliente titular;
     private double saldo;
     private double limite;
 
-    public Conta(int numero, String titular, double saldo, double limite) {
-        this(numero, titular, saldo);
-        this.limite = limite;
+    public Conta(int numero, Cliente titular, double saldo, double limite) {
+        this(numero, titular, limite);
+        this.saldo = saldo;
     }
 
-    public Conta(int numero, String titular,  double limite) {
+    public Conta(int numero, Cliente titular,  double limite) {
         this.numero = numero;
         this.titular = titular;
         this.limite = limite;
@@ -23,11 +23,13 @@ public class Conta {
         validaSaldo(valor);
         validaLimite(valor);
         this.saldo -= valor;
+
     }
 
     public void deposito(double valor) throws ValorInvalidoException{
        validaValor(valor);
        this.saldo += valor;
+
     }
 
     public void transferencia(double valor, Conta conta)
@@ -73,7 +75,7 @@ public class Conta {
         return this.numero;
     }
 
-    public void setTitular(String titular) {
+    public void setTitular(Cliente titular) {
         this.titular = titular;
     }
 
@@ -95,7 +97,7 @@ public class Conta {
         return saldo;
     }
 
-    public String getTitular() {
+    public Cliente getTitular() {
         return titular;
     }
 

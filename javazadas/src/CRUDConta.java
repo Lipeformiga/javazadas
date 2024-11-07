@@ -68,6 +68,7 @@ public class CRUDConta {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM tb_conta");
             ResultSet rs = ps.executeQuery();
 
+            // tirar duvida para ver como posso fazer
             while (rs.next()){
                 contas.add(new Conta(rs.getInt("numero"), rs.getString("titular"), rs.getDouble("saldo"), rs.getDouble("limite")));
             }

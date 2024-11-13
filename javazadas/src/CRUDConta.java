@@ -61,45 +61,45 @@ public class CRUDConta {
         throw new ContaInexistenteException();
     }
 
-//    public List<Conta> readAll(){
-//        try (Connection con = banco.getConexao()) {
-//            PreparedStatement ps = con.prepareStatement("SELECT * FROM tb_conta");
-//
-//            ResultSet rs = ps.executeQuery();
-//            List<Conta> contas = new ArrayList<>();
-//            while (rs.next()){
-//                int num = rs.getInt("numero");
-//                int idCliente = rs.getInt("id_cliente");
-//                double saldo = rs.getDouble("saldo");
-//                double limite = rs.getDouble("limite");
-//                CRUDCliente crudCliente = new CRUDCliente();
-//                Cliente titular = crudCliente.readOne(idCliente);
-//                contas.add(new Conta(num, titular, saldo, limite));
-//            }
-//            return contas;
-//        } catch (SQLException e){
-//            System.out.println(e.getMessage());
-//        }
-//        throw new ContaInexistenteException();
-//    }
-
     public List<Conta> readAll(){
-        try (Connection con = banco.getConexao()){
-            List<Conta> contas = new ArrayList<>();
-
+        try (Connection con = banco.getConexao()) {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM tb_conta");
-            ResultSet rs = ps.executeQuery();
 
-            // tirar duvida para ver como posso fazer
+            ResultSet rs = ps.executeQuery();
+            List<Conta> contas = new ArrayList<>();
             while (rs.next()){
-                contas.add(new Conta(rs.getInt("numero"), rs.getString("titular"), rs.getDouble("saldo"), rs.getDouble("limite")));
+                int num = rs.getInt("numero");
+                int idCliente = rs.getInt("id_cliente");
+                double saldo = rs.getDouble("saldo");
+                double limite = rs.getDouble("limite");
+                CRUDCliente crudCliente = new CRUDCliente();
+                Cliente titular = crudCliente.readOne(idCliente);
+                contas.add(new Conta(num, titular, saldo, limite));
             }
             return contas;
         } catch (SQLException e){
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
         throw new ContaInexistenteException();
     }
+
+//    public List<Conta> readAll(){
+//        try (Connection con = banco.getConexao()){
+//            List<Conta> contas = new ArrayList<>();
+//
+//            PreparedStatement ps = con.prepareStatement("SELECT * FROM tb_conta");
+//            ResultSet rs = ps.executeQuery();
+//            CRUDCliente crudCliente = new CRUDCliente();
+//            // tirar duvida para ver como posso fazer
+//            while (rs.next()){
+//                contas.add(new Conta(rs.getInt("numero"), rs.getString("titular"), rs.getDouble("saldo"), rs.getDouble("limite")));
+//            }
+//            return contas;
+//        } catch (SQLException e){
+//            System.err.println(e.getMessage());
+//        }
+//        throw new ContaInexistenteException();
+//    }
 
     public void update(Conta conta) {
         try (Connection con = banco.getConexao()) {

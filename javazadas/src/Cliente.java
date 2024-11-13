@@ -11,6 +11,11 @@ public class Cliente {
         this.cpf = cpf;
     }
 
+    public Cliente(String nome, String cpf) {
+        this.nome = nome;
+        this.cpf = cpf;
+    }
+
     public int getId() {
         return id;
     }
@@ -25,5 +30,19 @@ public class Cliente {
 
     public Conta getConta() {
         return conta;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", conta=" + conta +
+                '}';
     }
 }

@@ -27,7 +27,7 @@ public class CRUDConta {
 
             // quando precisa mais dados do banco de dados, por exemplo um comando select
             // ps.executeQuery();
-            // a quantidade de registros alterados ( retorna um valor inteiro )
+            // a quantidade de registros alterados linhas afetadas ( retorna um valor inteiro )
             // ps.executeUpdate();
             // mesma coisa que o de cima mas se for um banco de dados muito grande
             // ps.executeLargeUpdate();

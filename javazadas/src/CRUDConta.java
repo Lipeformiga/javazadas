@@ -61,6 +61,28 @@ public class CRUDConta {
         throw new ContaInexistenteException();
     }
 
+//    public List<Conta> readAll(){
+//        try (Connection con = banco.getConexao()) {
+//            PreparedStatement ps = con.prepareStatement("SELECT * FROM tb_conta");
+//
+//            ResultSet rs = ps.executeQuery();
+//            List<Conta> contas = new ArrayList<>();
+//            while (rs.next()){
+//                int num = rs.getInt("numero");
+//                int idCliente = rs.getInt("id_cliente");
+//                double saldo = rs.getDouble("saldo");
+//                double limite = rs.getDouble("limite");
+//                CRUDCliente crudCliente = new CRUDCliente();
+//                Cliente titular = crudCliente.readOne(idCliente);
+//                contas.add(new Conta(num, titular, saldo, limite));
+//            }
+//            return contas;
+//        } catch (SQLException e){
+//            System.out.println(e.getMessage());
+//        }
+//        throw new ContaInexistenteException();
+//    }
+
     public List<Conta> readAll(){
         try (Connection con = banco.getConexao()){
             List<Conta> contas = new ArrayList<>();
